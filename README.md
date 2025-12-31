@@ -46,7 +46,7 @@ conda activate agent4rec
 pip install -r requirements.txt
 ```
 
-### 3.
+### 3.2 如何运行
 1. 首先进入`Agent4Rec/recommenders`目录，运行，`python setup.py build_ext –inplace2` 
 
 2. 进行API相关环境变量设置
