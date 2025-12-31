@@ -68,7 +68,7 @@ fix_seeds(seed)
 raw_path = "raw_data/"
 movies = pd.read_table(raw_path + 'movies.dat', encoding='ISO-8859-1', sep='::', header=None, names=['movie_id', 'title', 'genres'], engine='python')
 ratings = pd.read_csv(raw_path + 'ratings.dat', sep='::', engine='python', header=None, names=['user_id', 'movie_id', 'rating', 'timestamp'])
-users = pd.read_csv(raw_path + 'users.dat', sep='::', engine='python', header=None, names=['user_id', 'gender', 'age', 'occupation', 'zip-code'])
+users = pd.read_csv(raw_path + 'users.dat', sep='::', engine='python', header=None, names=['user_id', 'gender', 'age', 'occupation', 'zip-Agent4Rec'])
 movie_detail = pd.read_csv('/storage_fast/lhsheng/chenyuxin/Simulator/datasets/ml-1m_real_0/simulation/movie_detail.csv')
 #%%
 gender_dict = {

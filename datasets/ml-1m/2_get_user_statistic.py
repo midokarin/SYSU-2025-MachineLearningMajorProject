@@ -27,7 +27,7 @@ fix_seeds(seed)
 raw_path = "raw_data/"
 movies = pd.read_table(raw_path + 'movies.dat', encoding='ISO-8859-1', sep='::', header=None, names=['movie_id', 'title', 'genres'], engine='python')
 ratings = pd.read_csv(raw_path + 'ratings.dat', sep='::', engine='python', header=None, names=['user_id', 'movie_id', 'rating', 'timestamp'])
-users = pd.read_csv(raw_path + 'users.dat', sep='::', engine='python', header=None, names=['user_id', 'gender', 'age', 'occupation', 'zip-code'])
+users = pd.read_csv(raw_path + 'users.dat', sep='::', engine='python', header=None, names=['user_id', 'gender', 'age', 'occupation', 'zip-Agent4Rec'])
 
 # %%
 avg_num_movies = ratings.groupby('user_id').size().reset_index(name='activity_num')
@@ -84,7 +84,7 @@ statistics_num = avg_num_movies[['user_id', 'activity_num']]
 raw_path = "raw_data/"
 movies = pd.read_table(raw_path + 'movies.dat', encoding='ISO-8859-1', sep='::', header=None, names=['movie_id', 'title', 'genres'], engine='python')
 ratings = pd.read_csv(raw_path + 'ratings.dat', sep='::', engine='python', header=None, names=['user_id', 'movie_id', 'rating', 'timestamp'])
-users = pd.read_csv(raw_path + 'users.dat', sep='::', engine='python', header=None, names=['user_id', 'gender', 'age', 'occupation', 'zip-code'])
+users = pd.read_csv(raw_path + 'users.dat', sep='::', engine='python', header=None, names=['user_id', 'gender', 'age', 'occupation', 'zip-Agent4Rec'])
 # %%
 # merge movies and ratings on movie_id
 movies_ratings = pd.merge(movies, ratings, on='movie_id', how='inner')
@@ -140,7 +140,7 @@ statistics_num = pd.merge(statistics_num, genres_diversity[['user_id', 'diversit
 raw_path = "raw_data/"
 movies = pd.read_table(raw_path + 'movies.dat', encoding='ISO-8859-1', sep='::', header=None, names=['movie_id', 'title', 'genres'], engine='python')
 ratings = pd.read_csv(raw_path + 'ratings.dat', sep='::', engine='python', header=None, names=['user_id', 'movie_id', 'rating', 'timestamp'])
-users = pd.read_csv(raw_path + 'users.dat', sep='::', engine='python', header=None, names=['user_id', 'gender', 'age', 'occupation', 'zip-code'])
+users = pd.read_csv(raw_path + 'users.dat', sep='::', engine='python', header=None, names=['user_id', 'gender', 'age', 'occupation', 'zip-Agent4Rec'])
 # %%
 # average rating for each movie
 avg_ratings = ratings[['movie_id', 'rating']].groupby("movie_id").mean().reset_index()
