@@ -39,14 +39,31 @@
 
 ## 3. 环境与依赖
 
-> 下面给出一份通用安装方式。若你的仓库中已有 `requirements.txt` / `environment.yml`，请以实际文件为准。
-
 ### 3.1 创建环境（推荐）
 ```bash
 conda create -n agent4rec python=3.9 -y
 conda activate agent4rec
 pip install -r requirements.txt
 ```
+
+### 3.
+1. 首先进入`Agent4Rec/recommenders`目录，运行，`python setup.py build_ext –inplace2` 
+
+2. 进行API相关环境变量设置
+
+   ```bash
+   export OPENAI_API_KEY="sk-76394ad60006413aa4a30c1b91e097e5" 
+   export OPENAI_API_BASE="https://api.deepseek.com/v1" 
+   export DEEPSEEK_CHAT_MODEL="deepseek-chat"
+   ```
+
+3. 可以直接运行`python main.py`（使用默认参数）
+
+4. 也可在命令行设置其他参数：
+
+   ```bash
+   python main.py --simulation_name MyExp --modeltype MF --n_avatars 10 --max_pages 5 --items_per_page 4 --execution_mode parallel --ablate_profile no_profile
+   ```
 
 ## 🗂 仓库结构
 
