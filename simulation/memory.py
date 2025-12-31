@@ -2,8 +2,20 @@ from simulation.base.abstract_memory import abstract_memory
 import datetime
 from langchain.schema import BaseMemory, Document
 import openai
+import os
 import logging
 import re
+
+def _resolve_chat_model():
+    """Resolve chat model name from environment variables (no hard-coded GPT)."""
+    return (
+        os.getenv("DEEPSEEK_CHAT_MODEL")
+        or os.getenv("LLM_CHAT_MODEL")
+        or os.getenv("OPENAI_MODEL")
+        or os.getenv("MODEL")
+        or "gpt-3.5-turbo"
+    )
+
 from langchain.schema import BaseMemory, Document
 from langchain.utils import mock_now
 import time
@@ -105,7 +117,7 @@ class AvatarMemory(BaseMemory):
                 result.append(doc)
         return self.format_memories_simple(result)
 
-    def get_completion(self, prompt, llm="gpt-3.5-turbo", temperature=0):
+    def get_completion(self, prompt, llm=None, temperature=0):
         messages = [{"role":"user", "content" : prompt}]
         response = ''
         except_waiting_time = 1
@@ -138,7 +150,7 @@ class AvatarMemory(BaseMemory):
                             print("\nMemory End Identifier", time.time(), vars.global_start_time, (time.time() - vars.global_start_time), vars.global_steps)
 
                 response = openai.ChatCompletion.create(
-                    model=llm,
+                    model=(llm or _resolve_chat_model()),
                     messages=messages,
                     temperature=temperature,
                     request_timeout = 20,
@@ -178,7 +190,7 @@ class AvatarMemory(BaseMemory):
             [self._format_memory_detail(o) for o in observations]
         )
         prompt_filled = prompt.replace("<INPUT>", observation_str)
-        result = self.get_completion(prompt=prompt_filled, llm="gpt-3.5-turbo", temperature=0.2)
+        result = self.get_completion(prompt=prompt_filled, llm=None, temperature=0.2)
         print(result)
         return result
     
@@ -196,7 +208,7 @@ class AvatarMemory(BaseMemory):
         relevant_memories = self.fetch_memories(observations)
         observation_str = self.format_memories_detail(relevant_memories)
         prompt_filled = prompt.replace("<INPUT>", observation_str)
-        result = self.get_completion(prompt=prompt_filled, llm="gpt-3.5-turbo", temperature=0.2)
+        result = self.get_completion(prompt=prompt_filled, llm=None, temperature=0.2)
 
         print(result)
         return result
@@ -219,7 +231,7 @@ class AvatarMemory(BaseMemory):
             [self._format_memory_detail(o) for o in observations]
         )
         prompt_filled = prompt.replace("<INPUT 2>", observation_str)
-        result = self.get_completion(prompt=prompt_filled, llm="gpt-3.5-turbo", temperature=0.2)
+        result = self.get_completion(prompt=prompt_filled, llm=None, temperature=0.2)
         print(result)
         return result
 

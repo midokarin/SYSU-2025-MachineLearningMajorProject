@@ -3,6 +3,17 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
+
+def _resolve_chat_model():
+    """Resolve chat model name from environment variables."""
+    return (
+        os.getenv("DEEPSEEK_CHAT_MODEL")
+        or os.getenv("LLM_CHAT_MODEL")
+        or os.getenv("OPENAI_MODEL")
+        or os.getenv("MODEL")
+        or "gpt-3.5-turbo"
+    )
+
 import random
 import torch
 import pickle
@@ -289,7 +300,7 @@ REASON: <-brief reason->
 
 
 
-def get_completion(prompt, sys_prompt, model="gpt-3.5-turbo", temperature=0):
+def get_completion(prompt, sys_prompt, model=_resolve_chat_model(), temperature=0):
     messages = [{"role":"user", "content" : prompt}, {"role":"system", "content" : sys_prompt}]
     response = ''
     except_waiting_time = 0.1
@@ -317,7 +328,7 @@ def get_completion(prompt, sys_prompt, model="gpt-3.5-turbo", temperature=0):
     return response.choices[0].message["content"]
 
 
-async def polish_data(idx, prompt, sys_prompt, loop, executor, model="gpt-3.5-turbo", temperature=0):
+async def polish_data(idx, prompt, sys_prompt, loop, executor, model=_resolve_chat_model(), temperature=0):
     # print("begin {}".format(idx))
     start_time = time.time()
     polish_text = await loop.run_in_executor(executor, get_completion, prompt, sys_prompt, model, temperature)
